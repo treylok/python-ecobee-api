@@ -256,8 +256,8 @@ class Ecobee(object):
         self,
         index: int,
         fan_mode: str,
-        cool_temp: int,
-        heat_temp: int,
+        cool_temp: Optional[int] = None,
+        heat_temp: Optional[int] = None,
         hold_type: str = "nextTransition",
     ) -> None:
         """Sets the fan mode (auto, minontime, on)."""
@@ -271,13 +271,17 @@ class Ecobee(object):
                     "type": "setHold",
                     "params": {
                         "holdType": hold_type,
-                        "coolHoldTemp": int(cool_temp * 10),
-                        "heatHoldTemp": int(heat_temp * 10),
                         "fan": fan_mode,
                     },
                 }
             ],
         }
+
+        if cool_temp is not None:
+            body['functions']['params']['coolHoldTemp'] = int(cool_temp * 10)
+        if heat_temp is not None:
+            body['functions']['params']['heatHoldTemp'] = int(heat_temp * 10)
+
         log_msg_action = "set fan mode"
 
         try:
