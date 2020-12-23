@@ -487,6 +487,22 @@ class Ecobee(object):
         except (ExpiredTokenError, InvalidTokenError) as err:
             raise err
 
+    def set_dehumidifier_level(self, index: int, dehumidifier_level: int) -> None:
+        """Sets target dehumidifier level."""
+        body = {
+            "selection": {
+                "selectionType": "thermostats",
+                "selectionMatch": self.thermostats[index]["identifier"],
+            },
+            "thermostat": {"settings": {"dehumidifierLevel": int(dehumidifier_level)}},
+        }
+        log_msg_action = "set dehumidifier level"
+
+        try:
+            self._request("POST", ECOBEE_ENDPOINT_THERMOSTAT, log_msg_action, body=body)
+        except (ExpiredTokenError, InvalidTokenError) as err:
+            raise err
+
     def set_mic_mode(self, index: int, mic_enabled: bool) -> None:
         """Enables/Disables Alexa microphone (only for ecobee4)."""
         body = {
