@@ -278,9 +278,9 @@ class Ecobee(object):
         }
 
         if cool_temp is not None:
-            body['functions']['params']['coolHoldTemp'] = int(cool_temp * 10)
+            body['functions'][0]['params']['coolHoldTemp'] = int(cool_temp * 10)
         if heat_temp is not None:
-            body['functions']['params']['heatHoldTemp'] = int(heat_temp * 10)
+            body['functions'][0]['params']['heatHoldTemp'] = int(heat_temp * 10)
 
         log_msg_action = "set fan mode"
 
