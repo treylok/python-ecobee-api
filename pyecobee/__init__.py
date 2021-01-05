@@ -523,6 +523,22 @@ class Ecobee(object):
         except (ExpiredTokenError, InvalidTokenError) as err:
             raise err
 
+    def set_vent(self, index: int, vent_mode: str) -> None:
+        """Sets the ventilator mode (auto, minontime, on, off)."""
+        body = {
+            "selection": {
+                "selectionType": "thermostats",
+                "selectionMatch": self.thermostats[index]["identifier"],
+            },
+            "thermostat": {"settings": {"vent": vent_mode}},
+        }
+        log_msg_action = "set vent"
+
+        try:
+            self._request("POST", ECOBEE_ENDPOINT_THERMOSTAT, log_msg_action, body=body)
+        except (ExpiredTokenError, InvalidTokenError) as err:
+            raise err
+
     def _request(
         self,
         method: str,
