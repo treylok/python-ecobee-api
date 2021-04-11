@@ -175,6 +175,11 @@ class Ecobee(object):
             _LOGGER.debug(f"Error refreshing tokens from ecobee: {err}")
             return False
 
+    @property
+    def thermostats(self) -> list:
+        return self.thermostats
+
+
     def get_thermostats(self) -> bool:
         """Gets a json-list of thermostats from ecobee and caches in self.thermostats."""
         param_string = {
